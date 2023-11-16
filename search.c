@@ -5,9 +5,9 @@ int rootDepth;
 
 static void CheckUp(S_SEARCHINFO *info) {
 	// .. check if time up, or interrupt from GUI
-	// if(info->timeset == TRUE && GetTimeMs() > info->stoptime) {
-	// 	info->stopped = TRUE;
-	// }
+	if(info->timeset == TRUE && GetTimeMs() > info->stoptime) {
+		info->stopped = TRUE;
+	}
 
 	ReadInput(info);
 }
@@ -256,12 +256,6 @@ void SearchPosition(S_BOARD *pos, S_SEARCHINFO *info) {
 	int pvNum = 0;
 
 	ClearForSearch(pos,info);
-	
-	// if(EngineOptions->UseBook == TRUE) {
-	// 	bestMove = GetBookMove(pos);
-	// }
-
-	//printf("Search depth:%d\n",info->depth);
 
 	// iterative deepening
 	if(bestMove == NOMOVE) {
@@ -286,12 +280,9 @@ void SearchPosition(S_BOARD *pos, S_SEARCHINFO *info) {
 			// 	printf("score:%d depth:%d nodes:%ld time:%d(ms) ",
 			// 		bestScore,currentDepth,info->nodes,GetTimeMs()-info->starttime);
 			// }
-            printf("Depth: %d score: %d nodes: %ld ",currentDepth,bestScore,info->nodes);
             pvMoves = GetPvLine(currentDepth, pos);
-            for(pvNum = 0; pvNum < pvMoves; ++pvNum) {
-                printf(" %s",PrMove(pos->PvArray[pvNum]));
-            }
-            printf("\n");
+            
+           
 
 			// if(info->GAME_MODE == UCIMODE || info->POST_THINKING == TRUE) {
 			// 	pvMoves = GetPvLine(currentDepth, pos);
@@ -312,7 +303,7 @@ void SearchPosition(S_BOARD *pos, S_SEARCHINFO *info) {
 	// if(info->GAME_MODE == UCIMODE) {
 	// 	printf("bestmove %s\n",PrMove(bestMove));
 	// } else if(info->GAME_MODE == XBOARDMODE) {
-	printf("move %s\n",PrMove(bestMove));
+	printf("%s\n",PrMove(bestMove));
 	// 	MakeMove(pos, bestMove);
 	// } else {
 	// 	printf("\n\n***!! Vice makes move %s !!***\n\n",PrMove(bestMove));
